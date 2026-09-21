@@ -1,0 +1,77 @@
+name: ✨ Feature Request
+description: Grain works as documented — you want it to do more
+title: "[FEATURE] "
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Want Grain to support a **database it doesn't support yet**? Use the
+        **Connector request** template instead.
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight
+      options:
+        - label: I searched existing requests and this hasn't been asked for
+          required: true
+        - label: This is a single request (not a list)
+          required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What's the problem?
+      description: The problem, not the solution — it helps us find better answers than the one you had in mind.
+      placeholder: |
+        I keep re-running the same three queries every morning and there's no
+        way to keep them together...
+    validations: { required: true }
+  - type: textarea
+    id: solution
+    attributes:
+      label: What would you like Grain to do?
+    validations: { required: true }
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What are you doing instead today?
+    validations: { required: false }
+  - type: dropdown
+    id: workflow
+    attributes:
+      label: What do you use Grain for?
+      options:
+        - "Writing and debugging application code"
+        - "Analyzing data / reporting"
+        - "Both, roughly equally"
+        - "Driving it from an AI agent"
+    validations: { required: true }
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Editor and running queries
+        - Results grid
+        - Connections and credentials
+        - AI agent / MCP
+        - Export and sharing
+        - Onboarding and demo
+        - Other
+    validations: { required: true }
+  - type: dropdown
+    id: importance
+    attributes:
+      label: How much does this matter to you?
+      options:
+        - "1 — nice to have"
+        - "2"
+        - "3"
+        - "4"
+        - "5 — I can't use Grain properly without it"
+    validations: { required: true }
+  - type: textarea
+    id: additional
+    attributes:
+      label: Anything else?
+    validations: { required: false }

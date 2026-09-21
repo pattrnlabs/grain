@@ -1,0 +1,44 @@
+# Label taxonomy for pattrnlabs/grain — not auto-applied by any workflow yet.
+# Create these via the GitHub UI, or `gh label create` from this list, before
+# the repo goes public. Per-connector labels (e.g. connector:clickhouse) are
+# added on demand as real issues need them, not pre-created here.
+
+# Type (also set by issue template `labels:` fields)
+- name: bug
+  color: d73a4a
+- name: enhancement
+  color: a2eeef
+- name: connector
+  color: 0e8a16
+- name: documentation
+  color: 0075ca
+- name: question
+  color: d876e3
+
+# Area
+- name: "area:editor"
+  color: fbca04
+- name: "area:results"
+  color: fbca04
+- name: "area:connections"
+  color: fbca04
+- name: "area:agent-mcp"
+  color: fbca04
+- name: "area:export"
+  color: fbca04
+- name: "area:onboarding"
+  color: fbca04
+
+# Status
+- name: needs-info
+  color: cfd3d7
+- name: investigating
+  color: cfd3d7
+- name: in-progress
+  color: cfd3d7
+- name: awaiting-release
+  color: cfd3d7
+- name: duplicate
+  color: cfd3d7
+- name: wontfix
+  color: ffffff

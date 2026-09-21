@@ -1,0 +1,15 @@
+// Elasticsearch (ES|QL): log triage
+// TODO(open item): confirm this is the dialect Grain sends before publishing.
+
+// Error rate over the last hour, in 5-minute buckets
+FROM logs-*
+| WHERE @timestamp > NOW() - 1 hour AND log.level == "error"
+| STATS error_count = COUNT(*) BY bucket = BUCKET(@timestamp, 5 minutes)
+| SORT bucket DESC
+
+// Top error messages right now
+FROM logs-*
+| WHERE @timestamp > NOW() - 1 hour AND log.level == "error"
+| STATS count = COUNT(*) BY message.keyword
+| SORT count DESC
+| LIMIT 20
