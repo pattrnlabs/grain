@@ -2,8 +2,7 @@
 
 **A fast SQL workspace for VS Code — and for the AI agents you work with.**
 
-[Docs](https://grain.tools/docs) · [Discussions](https://github.com/pattrnlabs/grain/discussions) · [Changelog](CHANGELOG.md) · [Report a bug](https://github.com/pattrnlabs/grain/issues/new?template=01-bug-report.yml)
-<!-- TODO(open item): drop the Discussions link above if Discussions ends up disabled on this repo -->
+[Docs](https://grain.tools/docs) · [Changelog](CHANGELOG.md) · [Report a bug](https://github.com/pattrnlabs/grain/issues/new?template=01-bug-report.yml) · [Ask a question](https://github.com/pattrnlabs/grain/issues/new?template=04-question.yml)
 
 [![VS Code Marketplace](https://vsmarketplacebadges.dev/version/pattrnlabs.grain.svg)](https://marketplace.visualstudio.com/items?itemName=pattrnlabs.grain)
 [![Installs](https://vsmarketplacebadges.dev/installs/pattrnlabs.grain.svg)](https://marketplace.visualstudio.com/items?itemName=pattrnlabs.grain)
@@ -126,8 +125,7 @@ Runnable queries by database, plus AI agent setup, live in
 - **Found a bug?** [File a bug report](https://github.com/pattrnlabs/grain/issues/new?template=01-bug-report.yml)
 - **Want a feature?** [File a feature request](https://github.com/pattrnlabs/grain/issues/new?template=02-feature-request.yml)
 - **Need a connector?** [Request one](https://github.com/pattrnlabs/grain/issues/new?template=03-connector-request.yml)
-- **Have a question?** [Ask in Discussions](https://github.com/pattrnlabs/grain/discussions) or [file a question issue](https://github.com/pattrnlabs/grain/issues/new?template=04-question.yml)
-  <!-- TODO(open item): drop the Discussions link if it ends up disabled -->
+- **Have a question?** [File a question issue](https://github.com/pattrnlabs/grain/issues/new?template=04-question.yml) — check the [docs](https://grain.tools/docs) first, a lot of these are answered there
 
 We don't have a rigid roadmap yet — what gets built next is shaped largely by
 what shows up here, especially connector requests.

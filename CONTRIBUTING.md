@@ -33,12 +33,7 @@ Describe the problem you're facing, not just the solution you have in mind
 
 ## Asking a question
 
-<!-- TODO(launch): confirm whether GitHub Discussions is enabled on this
-     repo before publishing. If not, drop the Discussions link below and
-     point solely at the Question issue template. -->
-
-For "how do I…" questions, use
-[Discussions](https://github.com/pattrnlabs/grain/discussions) or the
+For "how do I…" questions, use the
 [Question template](.github/ISSUE_TEMPLATE/04-question.yml). Check the
 [docs](https://grain.tools/docs) first — a lot of these are answered there
 already.

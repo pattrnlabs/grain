@@ -13,7 +13,7 @@ body:
     attributes:
       label: Preflight
       options:
-        - label: I checked the docs and searched existing issues/discussions
+        - label: I checked the docs and searched existing issues
           required: true
   - type: textarea
     id: question

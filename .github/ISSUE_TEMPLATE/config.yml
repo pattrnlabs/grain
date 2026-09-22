@@ -1,10 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-  # TODO(launch): confirm GitHub Discussions is enabled before publishing —
-  # if not, remove this entry and rely on the Question template alone.
-  - name: 💬 Questions and ideas
-    url: https://github.com/pattrnlabs/grain/discussions
-    about: "How do I…?" questions, setup help, and open-ended discussion
   - name: 📖 Documentation
     url: https://grain.tools/docs
     about: Installation, connectors, and the MCP setup guide
