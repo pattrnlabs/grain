@@ -2,7 +2,7 @@
 
 **A fast SQL workspace for VS Code — and for the AI agents you work with.**
 
-[Docs](https://grain.tools/docs) · [Discussions](https://github.com/pattrnlabs/grain/discussions) · [Changelog](CHANGELOG.md) · [Report a bug](https://github.com/pattrnlabs/grain/issues/new?template=01-bug-report.yml)
+[Docs](https://grain.tools/docs)  · [Changelog](CHANGELOG.md) · [Report a bug](https://github.com/pattrnlabs/grain/issues/new?template=01-bug-report.yml)
 <!-- TODO(open item): drop the Discussions link above if Discussions ends up disabled on this repo -->
 
 [![VS Code Marketplace](https://vsmarketplacebadges.dev/version/pattrnlabs.grain.svg)](https://marketplace.visualstudio.com/items?itemName=pattrnlabs.grain)
