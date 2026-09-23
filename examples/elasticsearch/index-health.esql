@@ -1,0 +1,8 @@
+// Elasticsearch (ES|QL): index health
+// TODO(open item): confirm this is the dialect Grain sends before publishing.
+
+// Largest indices by document count
+FROM _all
+| STATS doc_count = COUNT(*) BY _index
+| SORT doc_count DESC
+| LIMIT 20

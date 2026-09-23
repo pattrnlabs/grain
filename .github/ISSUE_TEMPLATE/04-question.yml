@@ -1,0 +1,40 @@
+name: ❓ Question
+description: Ask how to do something in Grain
+title: "[QUESTION] "
+labels: [question]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Check the [docs](https://grain.tools/docs) first — a lot of "how do I…"
+        questions are already answered there.
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight
+      options:
+        - label: I checked the docs and searched existing issues
+          required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: What are you trying to do?
+    validations: { required: true }
+  - type: textarea
+    id: tried
+    attributes:
+      label: What have you tried already?
+    validations: { required: false }
+  - type: dropdown
+    id: connector
+    attributes:
+      label: Connector, if relevant
+      options:
+        - Postgres
+        - MySQL
+        - Elasticsearch
+        - DuckDB
+        - Snowflake
+        - BigQuery
+        - Not applicable
+    validations: { required: false }

@@ -1,0 +1,70 @@
+name: 🔌 Connector Request
+description: Ask for support for a database Grain doesn't have yet
+title: "Connector: "
+labels: [connector]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Search first.** If someone already asked for this database, add a 👍
+        to their issue instead — that's how we prioritize. Add a comment if your
+        use case is different from theirs.
+  - type: input
+    id: database
+    attributes:
+      label: Database
+      placeholder: "ClickHouse"
+    validations: { required: true }
+  - type: input
+    id: website
+    attributes:
+      label: Website or docs link
+    validations: { required: true }
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - SQL database
+        - Warehouse / analytics
+        - Search / document store
+        - NoSQL / key-value
+        - Graph / vector
+        - Time series / streaming
+        - File format
+        - Other
+    validations: { required: true }
+  - type: textarea
+    id: today
+    attributes:
+      label: How do you query it today?
+      placeholder: "curl against the HTTP API, then paste results into a spreadsheet"
+    validations: { required: true }
+  - type: input
+    id: protocol
+    attributes:
+      label: Wire protocol
+      placeholder: "HTTP / native TCP / Postgres wire / gRPC"
+    validations: { required: false }
+  - type: input
+    id: driver
+    attributes:
+      label: Node.js driver, if you know one
+      placeholder: "@clickhouse/client"
+    validations: { required: false }
+  - type: input
+    id: auth
+    attributes:
+      label: Auth methods you need
+      placeholder: "username/password, TLS client cert, cloud IAM"
+    validations: { required: false }
+  - type: dropdown
+    id: usage
+    attributes:
+      label: What would you use it for in Grain?
+      options:
+        - "Debugging my application"
+        - "Analysis and reporting"
+        - "Giving my AI agent access to it"
+        - "More than one of these"
+    validations: { required: true }
