@@ -154,6 +154,9 @@ We don't have a fixed roadmap yet. What we build next depends a lot on what
 people ask for here, especially connector requests. See
 [CONTRIBUTING.md](CONTRIBUTING.md) for how to file a good issue.
 
+## Star History 
+[![Star History Chart](https://api.star-history.com/chart?repos=pattrnlabs/grain&type=date&legend=bottom-right)](https://www.star-history.com/?repos=pattrnlabs%2Fgrain&type=date&legend=bottom-right)
+
 ## License
 
 Grain is closed-source. See [LICENSE](LICENSE).
