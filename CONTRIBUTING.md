@@ -33,10 +33,9 @@ Describe the problem you're facing, not just the solution you have in mind
 
 ## Asking a question
 
-For "how do I…" questions, use the
-[Question template](.github/ISSUE_TEMPLATE/04-question.yml). Check the
-[docs](https://grain.tools/docs) first — a lot of these are answered there
-already.
+Check the [FAQ](README.md#faq) and the [docs](https://grain.tools/docs) first.
+If your question isn't answered there, use the
+[Question template](.github/ISSUE_TEMPLATE/04-question.yml).
 
 ## Account-specific issues
 

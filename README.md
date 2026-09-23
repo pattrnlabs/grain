@@ -1,136 +1,158 @@
 # Grain
 
-**A fast SQL workspace for VS Code — and for the AI agents you work with.**
+**A fast SQL workspace for VS Code, and for the AI agents you work with.**
 
 [Docs](https://grain.tools/docs) · [Changelog](CHANGELOG.md) · [Report a bug](https://github.com/pattrnlabs/grain/issues/new?template=01-bug-report.yml) · [Ask a question](https://github.com/pattrnlabs/grain/issues/new?template=04-question.yml)
 
 [![VS Code Marketplace](https://vsmarketplacebadges.dev/version/pattrnlabs.grain.svg)](https://marketplace.visualstudio.com/items?itemName=pattrnlabs.grain)
-[![Installs](https://vsmarketplacebadges.dev/installs/pattrnlabs.grain.svg)](https://marketplace.visualstudio.com/items?itemName=pattrnlabs.grain)
-<!-- TODO(open item): confirm Open VSX is live before publishing this badge -->
 [![OpenVSX](https://img.shields.io/open-vsx/v/pattrnlabs/grain?label=OpenVSX&color=a60ee5)](https://open-vsx.org/extension/pattrnlabs/grain)
-[![Closed issues](https://img.shields.io/github/issues-closed/pattrnlabs/grain?color=green)](https://github.com/pattrnlabs/grain/issues?q=is%3Aissue+is%3Aclosed)
 
-Open a `.sql` file, press `Ctrl+Enter`, and read the results in a real grid —
-without leaving the editor. Nine databases, credentials in your OS keychain,
-nothing sent anywhere.
-
-<!-- HERO GIF -->
+Run SQL from any `.sql` file with `Ctrl+Enter` and get the results in a
+sortable grid inside VS Code. Passwords stay in your OS keychain, and Grain
+has no hosted service.
 
 ![Run a query in Grain](media/demo/hero-run-query.gif)
 
----
-
-## Quick Start
+## Quick start
 
 1. Install Grain from the
-   [Marketplace](https://marketplace.visualstudio.com/items?itemName=pattrnlabs.grain)
-   or [OpenVSX](https://open-vsx.org/extension/pattrnlabs/grain).
-   <!-- TODO(open item): drop the OpenVSX link if not live at launch -->
-2. Open a folder in VS Code — Grain puts a demo dataset there.
+   [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=pattrnlabs.grain)
+   or [Open VSX](https://open-vsx.org/extension/pattrnlabs/grain) (for Cursor,
+   Windsurf, and VSCodium).
+2. Open a folder in VS Code. Grain adds its demo files there.
 3. Open the **Grain** panel and click **Try the Demo**.
-4. Press **`Ctrl+Enter`** (**`Cmd+Enter`** on macOS) on any query in the file
-   that opens.
+4. Put your cursor in any query in the file that opens and press `Ctrl+Enter`
+   (`Cmd+Enter` on macOS).
 
-That's a real query against real data, no connection or credentials needed.
-When you want your own database, run **Grain: Manage Connections** — add a
-profile, set its password, test it, make it active.
+The demo reads two CSV files through Grain's built-in DuckDB connection, so
+there's nothing to set up. To query your own database, run
+**Grain: Manage Connections**, add a profile, and test it before you save.
 
 ![The Grain panel, annotated](media/demo/panel-annotated.png)
 
----
+If Grain is useful to you, a star on this repo helps other developers find it.
 
-## Your AI agent, same grid
+## Use Grain from an AI agent
 
-Grain exposes your databases to AI coding agents — Claude Code, Cursor,
-GitHub Copilot — as **read-only** MCP tools, using the connections you've
-already set up. When an agent runs a query, the result lands in your VS Code
-results panel next to the ones you ran yourself.
+Grain can serve your database connections to Claude Code, Cursor, and GitHub
+Copilot over MCP. Agents get read-only access by default, and every query an
+agent runs shows up in your Grain results panel, so you can see exactly what
+it did.
 
-<!-- TODO(open item): the setup steps and command below need to match the
-     shipped MCP flow exactly — confirm before publishing. See
-     examples/agents/README.md for the per-client breakdown. -->
-
-Setup takes one command from the Grain panel: **Grain: Connect an AI Agent**,
-then pick your client. Full walkthrough and example prompts:
-[`examples/agents/`](examples/agents/).
-
----
+MCP is off until you turn on `grain.mcpEnabled` in settings. Setup steps for
+each client are in the [MCP docs](https://grain.tools/docs/mcp), and example
+prompts are in [`examples/agents/`](examples/agents/).
 
 ## Features
 
 | Feature | What it does |
 | --- | --- |
-| Run SQL from the editor | `Ctrl+Enter` on any `.sql` file, results in a panel beside your code |
-| Connection manager | Create, test, and switch database profiles; passwords in the OS keychain |
-| Tabbed result grid | Sort, filter, adjust density, copy TSV, export every row to CSV/TSV/JSON |
-| Your AI agent, same grid | Read-only MCP tools for Claude, Cursor, and Copilot — their queries show up in your results panel |
-| Nine databases | Postgres, MySQL, Elasticsearch, Snowflake, BigQuery, DuckDB, and more |
-| Local-first by design | No hosted service, no bundled model, no credentials in config files |
-
----
+| Run from the editor | `Ctrl+Enter` runs the file; **Run Query Under Cursor** runs one statement; **Run Query in New Tab** keeps the previous result |
+| Non-blocking queries | Queries run in a background process, so a slow query doesn't freeze VS Code |
+| Connection manager | Create, test, and switch database profiles without editing JSON |
+| Result grid | Sort, filter, and resize columns, see each column's SQL type, copy a selection as TSV |
+| Full export | The grid shows the first 500 rows; export re-runs the query and writes every row to CSV, TSV, or JSON |
+| Agent access over MCP | Claude Code, Cursor, and Copilot can query your connections; their results land in your panel |
+| Remote setups | Works over WSL, dev containers, GitHub Codespaces, and Remote - SSH |
 
 ## Supported databases
 
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white)
-![Elasticsearch](https://img.shields.io/badge/Elasticsearch-005571?style=flat&logo=elasticsearch&logoColor=white)
-![DuckDB](https://img.shields.io/badge/DuckDB-FFF000?style=flat&logo=duckdb&logoColor=black)
-![SQLite](https://img.shields.io/badge/SQLite-003B57?style=flat&logo=sqlite&logoColor=white)
-![Snowflake](https://img.shields.io/badge/Snowflake-29B5E8?style=flat&logo=snowflake&logoColor=white)
-![BigQuery](https://img.shields.io/badge/BigQuery-669DF6?style=flat&logo=googlebigquery&logoColor=white)
-![SQL Server](https://img.shields.io/badge/SQL%20Server-CC2927?style=flat&logo=microsoftsqlserver&logoColor=white)
-![Trino](https://img.shields.io/badge/Trino%2FPresto-DD00A1?style=flat)
+<table>
+  <tr>
+    <th align="left">Relational databases</th>
+    <td align="center" width="110"><img src="media/logos/postgresql.svg" width="36" height="36" alt=""><br>PostgreSQL</td>
+    <td align="center" width="110"><img src="media/logos/mysql.svg" width="36" height="36" alt=""><br>MySQL</td>
+    <td align="center" width="110"><img src="media/logos/sqlserver.svg" width="36" height="36" alt=""><br>SQL Server</td>
+    <td align="center" width="110"><img src="media/logos/sqlite.svg" width="36" height="36" alt=""><br>SQLite</td>
+  </tr>
+  <tr>
+    <th align="left">Data warehouses</th>
+    <td align="center"><img src="media/logos/snowflake.svg" width="36" height="36" alt=""><br>Snowflake</td>
+    <td align="center"><img src="media/logos/bigquery.svg" width="36" height="36" alt=""><br>BigQuery</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <th align="left">Query engines &amp; lakehouses</th>
+    <td align="center"><img src="media/logos/trino.svg" width="36" height="36" alt=""><br>Trino / Presto</td>
+    <td align="center"><img src="media/logos/duckdb.svg" width="36" height="36" alt=""><br>DuckDB</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <th align="left">Search</th>
+    <td align="center"><img src="media/logos/elasticsearch.svg" width="36" height="36" alt=""><br>Elasticsearch</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
 
-**Bundled with the extension** — nothing else to install: PostgreSQL · Trino / Presto
+Through Trino or Presto you can query your cluster's Iceberg, Delta Lake, and Hive tables.
+DuckDB queries local CSV and Parquet files directly.
 
-**Lazy-loaded** — may need their driver runtime in your environment: MySQL ·
-SQLite · DuckDB · Elasticsearch · Snowflake · BigQuery · SQL Server
+PostgreSQL and Trino / Presto are bundled with the extension. The others load
+their driver on first use, and if a driver is missing, Grain tells you what to
+install.
 
-When a driver is missing, Grain reports a guided error telling you what to
-install rather than failing silently.
-
-Database you need isn't here? [Request a connector](https://github.com/pattrnlabs/grain/issues/new?template=03-connector-request.yml) —
-connector demand is how we prioritize what to build next.
-
----
+Need another database? [Request a connector](https://github.com/pattrnlabs/grain/issues/new?template=03-connector-request.yml).
+Requests with the most 👍 get built first.
 
 ## Examples
 
-Runnable queries by database, plus AI agent setup, live in
-[`/examples`](examples/): [Postgres](examples/postgres/) ·
-[MySQL](examples/mysql/) · [Elasticsearch](examples/elasticsearch/) ·
-[DuckDB](examples/duckdb/) · [Agents](examples/agents/).
+Runnable queries for [Postgres](examples/postgres/), [MySQL](examples/mysql/),
+[Elasticsearch](examples/elasticsearch/), and [DuckDB](examples/duckdb/), plus
+[agent prompts](examples/agents/). Open any `.sql` file with Grain installed
+and press `Ctrl+Enter`.
 
----
+## Privacy
 
-## Local-first by design
+- **Your SQL, results, and passwords stay on your machine.** Passwords are
+  stored in VS Code Secret Storage, backed by your OS keychain, and never in a
+  settings file.
+- **Agents are read-only by default.** With `grain.mcpSafeMode` on (the
+  default), agents can only run `SELECT`, `SHOW`, `DESCRIBE`, `EXPLAIN`, `WITH`,
+  and metadata queries. Agents can't read stored passwords or change saved
+  connections.
+- **Telemetry is anonymous.** Grain sends usage data that never includes SQL,
+  results, credentials, hostnames, or schema names. Turn it off with
+  `grain.telemetry.enabled`.
 
-- **Read-only by default.** Safe mode restricts agents to `SELECT`, `SHOW`,
-  `DESCRIBE`, `EXPLAIN`, `WITH`, and metadata queries.
-- **Agents can't touch your credentials.** An agent cannot change saved
-  connections or read stored passwords.
-- **Nothing leaves your machine.** No hosted Grain service, no bundled AI
-  model. Credentials live in your OS keychain or VS Code Secret Storage,
-  never in a config file.
+## FAQ
 
----
+**Is Grain open source?**\
+No. Grain is closed-source. This repo holds the issue tracker, docs, and
+examples.
 
-## Docs
+**Which databases does it support?**\
+The nine listed [above](#supported-databases). To ask for another one,
+[request a connector](https://github.com/pattrnlabs/grain/issues/new?template=03-connector-request.yml).
 
-- [grain.tools/docs](https://grain.tools/docs) — installation, connectors, MCP setup
-- [CHANGELOG.md](CHANGELOG.md) — release history
+**Do my queries or passwords leave my machine?**\
+No. There's no Grain server. Queries go straight from VS Code to your database,
+and passwords stay in your OS keychain. See [Privacy](#privacy) for what the
+anonymous telemetry does and doesn't include.
+
+**How do I connect Claude Code or Cursor?**\
+Turn on `grain.mcpEnabled`, then follow the steps for your client in the
+[MCP docs](https://grain.tools/docs/mcp).
+
+**Why does my database show a driver error?**\
+Some connectors load their driver on first use. The error message names what
+to install. If it's still failing after that,
+[file a bug report](https://github.com/pattrnlabs/grain/issues/new?template=01-bug-report.yml)
+with the Output panel logs (**View → Output → Grain**).
 
 ## Getting help
 
-- **Found a bug?** [File a bug report](https://github.com/pattrnlabs/grain/issues/new?template=01-bug-report.yml)
-- **Want a feature?** [File a feature request](https://github.com/pattrnlabs/grain/issues/new?template=02-feature-request.yml)
-- **Need a connector?** [Request one](https://github.com/pattrnlabs/grain/issues/new?template=03-connector-request.yml)
-- **Have a question?** [File a question issue](https://github.com/pattrnlabs/grain/issues/new?template=04-question.yml) — check the [docs](https://grain.tools/docs) first, a lot of these are answered there
+- **Bug:** [file a bug report](https://github.com/pattrnlabs/grain/issues/new?template=01-bug-report.yml)
+- **Feature idea:** [file a feature request](https://github.com/pattrnlabs/grain/issues/new?template=02-feature-request.yml)
+- **New database:** [request a connector](https://github.com/pattrnlabs/grain/issues/new?template=03-connector-request.yml)
+- **Question:** check the [FAQ](#faq) and [docs](https://grain.tools/docs), then [ask a question](https://github.com/pattrnlabs/grain/issues/new?template=04-question.yml)
 
-We don't have a rigid roadmap yet — what gets built next is shaped largely by
-what shows up here, especially connector requests.
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for more on filing a good issue.
+We don't have a fixed roadmap yet. What we build next depends a lot on what
+people ask for here, especially connector requests. See
+[CONTRIBUTING.md](CONTRIBUTING.md) for how to file a good issue.
 
 ## License
 
