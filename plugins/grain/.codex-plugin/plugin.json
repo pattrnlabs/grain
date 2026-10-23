@@ -1,0 +1,26 @@
+{
+  "name": "grain",
+  "version": "0.10.36",
+  "description": "Query your databases from Codex with read-only safe mode on by default, and see every query the agent runs.",
+  "author": { "name": "Pattrnlabs", "url": "https://grain.tools" },
+  "homepage": "https://grain.tools",
+  "repository": "https://github.com/pattrnlabs/grain",
+  "skills": "./skills/",
+  "mcpServers": "./mcp.json",
+  "interface": {
+    "displayName": "Grain SQL",
+    "shortDescription": "Safe SQL for agents, on your machine",
+    "longDescription": "Grain connects Codex to DuckDB, Postgres, MySQL, SQLite, Trino and more. Queries run read-only by default, credentials stay on your machine, and every query the agent runs is visible in the Grain workspace.",
+    "developerName": "Pattrnlabs",
+    "category": "Developer Tools",
+    "capabilities": ["Read"],
+    "websiteURL": "https://grain.tools",
+    "privacyPolicyURL": "https://grain.tools/docs/privacy",
+    "defaultPrompt": [
+      "Use Grain to list my database connections",
+      "Use Grain to show the tables in my warehouse and describe the largest one"
+    ],
+    "logo": "./assets/logo.png",
+    "composerIcon": "./assets/logo.png"
+  }
+}

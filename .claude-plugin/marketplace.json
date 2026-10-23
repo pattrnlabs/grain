@@ -1,0 +1,12 @@
+{
+  "name": "grain",
+  "description": "Grain, safe SQL for agents",
+  "owner": { "name": "Pattrnlabs", "email": "hi@pattrnlabs.com" },
+  "plugins": [
+    {
+      "name": "grain",
+      "source": "./plugins/grain",
+      "description": "Query your databases with read-only safe mode on by default."
+    }
+  ]
+}

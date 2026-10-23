@@ -1,0 +1,12 @@
+{
+  "name": "grain",
+  "interface": { "displayName": "Grain SQL" },
+  "plugins": [
+    {
+      "name": "grain",
+      "source": { "source": "local", "path": "./plugins/grain" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Developer Tools"
+    }
+  ]
+}
