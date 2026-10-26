@@ -1,6 +1,6 @@
 {
   "name": "grain",
-  "version": "0.10.36",
+  "version": "0.10.37",
   "description": "Query your databases from Codex with read-only safe mode on by default, and see every query the agent runs.",
   "author": { "name": "Pattrnlabs", "url": "https://grain.tools" },
   "homepage": "https://grain.tools",
