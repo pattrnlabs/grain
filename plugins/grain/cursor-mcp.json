@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "grain": {
+      "type": "stdio",
+      "command": "${CURSOR_PLUGIN_ROOT}/scripts/grain-mcp"
+    }
+  }
+}

@@ -1,8 +1,7 @@
 {
   "mcpServers": {
     "grain": {
-      "command": "npx",
-      "args": ["-y", "grain-tools@latest", "--stdio"]
+      "command": "${CLAUDE_PLUGIN_ROOT}/scripts/grain-mcp"
     }
   }
 }

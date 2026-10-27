@@ -1,0 +1,33 @@
+#!/bin/sh
+
+is_grain() {
+  candidate=$1
+  [ -f "$candidate" ] && [ -x "$candidate" ] || return 1
+  identity=$("$candidate" --help </dev/null 2>/dev/null) || return 1
+  first_line=$(printf '%s\n' "$identity" | sed -n '1p')
+  printf '%s\n' "$first_line" | grep -Eq '^Usage: grain([[:space:]]|$)'
+}
+
+if [ -n "${GRAIN_BIN:-}" ] && is_grain "$GRAIN_BIN"; then
+  exec "$GRAIN_BIN" --stdio
+fi
+
+if [ -n "${GRAIN_HOME:-}" ]; then
+  installed_grain="$GRAIN_HOME/bin/grain"
+  if is_grain "$installed_grain"; then
+    exec "$installed_grain" --stdio
+  fi
+fi
+
+default_grain="${HOME:-}/.grain/bin/grain"
+if is_grain "$default_grain"; then
+  exec "$default_grain" --stdio
+fi
+
+path_grain=$(command -v grain 2>/dev/null || true)
+if [ -n "$path_grain" ] && is_grain "$path_grain"; then
+  exec "$path_grain" --stdio
+fi
+
+printf '%s\n' 'Grain is not installed. Ask the person whether to install it. If they say yes, run: curl -fsSL https://grain.tools/install.sh | sh' >&2
+exit 1

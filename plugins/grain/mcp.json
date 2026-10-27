@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "grain": {
-      "command": "npx",
-      "args": ["-y", "grain-tools@latest", "--stdio"]
+      "type": "stdio",
+      "command": "${PLUGIN_ROOT}/scripts/grain-mcp"
     }
   }
 }

@@ -14,4 +14,29 @@ Grain is a local service that runs SQL against the user's databases. The `grain`
 5. Safe mode is on by default and blocks writes. If a query is refused, explain why to the user. Do not try to work around it.
 6. To show results as a chart, call `render_chart`. To let the user look at results themselves, call `open_result_view`.
 
-If a tool reports that Grain is not running or not installed, tell the user to run `grain install`, which installs Grain as a background service. See https://grain.tools.
+## If Grain tools are unavailable
+
+If the Grain MCP server failed to start or its tools are missing, check for Grain in the same order as the launcher before suggesting an install:
+
+- macOS or Linux: check `GRAIN_BIN` if set, then `${GRAIN_HOME:-$HOME/.grain}/bin/grain`, then `command -v grain` on `PATH`.
+- Windows PowerShell: check `$env:GRAIN_BIN` if set, then `Join-Path $env:GRAIN_HOME 'bin\grain.cmd'` if `GRAIN_HOME` is set (otherwise `$env:USERPROFILE\.grain\bin\grain.cmd`), then `Get-Command grain` on `PATH`.
+
+If the binary exists, do not reinstall. Ask the person to reconnect the Grain MCP server in their agent. In Claude Code, use `/mcp`; in Codex, restart the session and check the Grain server in MCP settings; in Cursor, open Settings → Tools & MCP, make sure Grain is enabled, then restart the chat.
+
+If the binary is missing, say: “Grain needs a one-time install (about 30 seconds, no admin rights). Would you like me to install it?” Never run an installer until the person explicitly says yes. If they say no, leave it there and continue without Grain.
+
+After yes, use only the official command for the platform:
+
+- macOS or Linux: `curl -fsSL https://grain.tools/install.sh | sh`
+- Windows PowerShell: `irm https://grain.tools/install.ps1 | iex`
+
+If there is no terminal or shell tool, do not claim to install Grain; give the person the matching command to run themselves. If the machine is offline, do not run the installer; say: “The installer needs an internet connection. I can try again when you’re online.”
+
+On Windows, if PowerShell reports that its execution policy blocks the installer, do not change or bypass the policy. Say: “PowerShell blocked the installer, so Grain was not installed. I left your execution policy unchanged; follow the install steps at https://grain.tools or ask your administrator.”
+
+After running the command, repeat the same checks in the same order (`GRAIN_BIN`, then `GRAIN_HOME` or the default home, then `PATH`); the pipeline's exit status does not prove that the download or install worked:
+
+- macOS or Linux: check `GRAIN_BIN` if set, then `${GRAIN_HOME:-$HOME/.grain}/bin/grain`, then `command -v grain` on `PATH`.
+- Windows PowerShell: check `$env:GRAIN_BIN` if set, then `Join-Path $env:GRAIN_HOME 'bin\grain.cmd'` if `GRAIN_HOME` is set (otherwise `$env:USERPROFILE\.grain\bin\grain.cmd`), then `Get-Command grain` on `PATH`.
+
+If the check fails, say: “Grain didn't finish installing. Check your internet connection and try again.” Do not say the install succeeded. If the binary exists, ask the person to reconnect the MCP server in their agent: use `/mcp` in Claude Code; restart the Codex session and check its MCP settings; in Cursor, make sure Grain is enabled under Settings → Tools & MCP and restart the chat. Then confirm that Grain's tools are available.

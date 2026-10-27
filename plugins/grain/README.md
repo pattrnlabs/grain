@@ -2,7 +2,7 @@
 
 Gives Claude Code, Codex and Cursor the Grain MCP server and a skill that teaches the agent to use it.
 
-The MCP server starts with `npx -y grain-tools@latest --stdio`. It joins the Grain background service if one is running, and starts it if not. Node.js 20 or later is required.
+The MCP server connects to the Grain installation managed by the Grain installer. It does not bundle or install a second copy of Grain, and it does not require Node.js. The plugin checks `GRAIN_BIN`, then the installer home (`GRAIN_HOME`, defaulting to `~/.grain`), then a `grain` command on `PATH`. A candidate must identify itself with the Grain CLI's `Usage: grain` help output before the plugin starts it. Install Grain with `curl -fsSL https://grain.tools/install.sh | sh` on macOS or Linux, or `irm https://grain.tools/install.ps1 | iex` in PowerShell on Windows. If Grain is installed outside the default location, set `GRAIN_HOME` to its home directory or `GRAIN_BIN` to its CLI path.
 
 ## Privacy Policy
 
