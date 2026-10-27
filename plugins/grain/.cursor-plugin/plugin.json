@@ -1,7 +1,7 @@
 {
   "name": "grain",
   "displayName": "Grain SQL",
-  "version": "0.10.38",
+  "version": "0.10.39",
   "description": "Query your databases from Cursor with read-only safe mode on by default, and see every query the agent runs.",
   "author": { "name": "Pattrnlabs", "url": "https://grain.tools" },
   "homepage": "https://grain.tools",
