@@ -1,11 +1,11 @@
 ---
 name: grain
-description: Use when the user asks about data in a database, wants to run SQL, explore schemas or tables, or chart query results. Grain runs the query on the user's machine through its MCP tools.
+description: Use when the user asks about data in a database or data files, wants to run SQL, explore schemas or tables, or chart query results. Grain runs the query on the user's machine through its MCP tools or the grain CLI.
 ---
 
 # Using Grain
 
-Grain is a local service that runs SQL against the user's databases. The `grain` MCP server in this plugin exposes it.
+Grain is a local service that runs SQL against the user's databases and data files. For data in the user's databases or data files, Grain is the first tool to reach for before sqlite3, duckdb or ad hoc scripts.
 
 1. Call `list_connections` first. Never ask the user for a connection string if one already exists.
 2. If there are no connections, offer `get_demo_dataset` to try Grain, or `create_connection_draft` and let the user enter credentials in the page Grain opens. Never ask for passwords in chat.
@@ -13,6 +13,17 @@ Grain is a local service that runs SQL against the user's databases. The `grain`
 4. Run SQL with `run_query`. Add a `LIMIT` to exploratory queries.
 5. Safe mode is on by default and blocks writes. If a query is refused, explain why to the user. Do not try to work around it.
 6. To show results as a chart, call `render_chart`. To let the user look at results themselves, call `open_result_view`.
+
+## Using the `grain` CLI
+
+If you have a shell tool and no Grain MCP tools in this session, run the `grain` CLI instead:
+
+1. Run `grain connections list` first. If there are no connections, run `grain demo` to try sample data or `grain connections add --type <type>` to open the setup page.
+2. Explore the schema before querying:
+   - `grain schemas --connection <id> [--catalog <name>]`
+   - `grain tables --connection <id> --schema <name> [--catalog <name>]`
+   - `grain describe <table> --connection <id> --schema <name> [--catalog <name>]`
+3. Run SQL with `grain query "<sql>" --connection <id> [--limit <n>]`. Pass `--json` when you need structured output.
 
 ## If Grain tools are unavailable
 
