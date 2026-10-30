@@ -9,6 +9,7 @@ Grain is a local service that runs SQL against the user's databases and data fil
 
 1. Call `list_connections` first. Never ask the user for a connection string if one already exists.
 2. If there are no connections, offer `get_demo_dataset` to try Grain, or `create_connection_draft` and let the user enter credentials in the page Grain opens. Never ask for passwords in chat.
+   For an unsaved local `.sqlite` or `.duckdb` file, pass `connectionProfile: { id: 'local', name: 'Local DB', type: 'sqlite' or 'duckdb', databasePath: '/absolute/path/to/file' }` to the schema tools or `run_query`.
 3. Explore before querying: `list_schemas`, `list_tables`, then `describe_table` for the tables you need.
 4. Run SQL with `run_query`. Add a `LIMIT` to exploratory queries.
 5. Safe mode is on by default and blocks writes. If a query is refused, explain why to the user. Do not try to work around it.
@@ -25,7 +26,15 @@ If you have a shell tool and no Grain MCP tools in this session, run the `grain`
    - `grain describe <table> --connection <id> --schema <name> [--catalog <name>]`
 3. Run SQL with `grain query "<sql>" --connection <id> [--limit <n>]`. Pass `--json` when you need structured output.
 
+If `grain` CLI commands cannot reach `127.0.0.1` or report that Grain is not running when Grain is already running (for example inside a sandboxed shell that blocks localhost):
+
+- Use Grain's MCP tools (`list_connections`, `run_query`, and related tools) if you have them in this session; MCP tools do not go through the shell sandbox.
+- If you do not have Grain's MCP tools, ask the user to allow local network access for the agent.
+- Do not suggest or run `grain start` or `grain install` when Grain is already running.
+
 ## If Grain tools are unavailable
+
+If Grain is running but the CLI cannot reach it, follow the sandbox guidance above.
 
 If the Grain MCP server failed to start or its tools are missing, check for Grain in the same order as the launcher before suggesting an install:
 
