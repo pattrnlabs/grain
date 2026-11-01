@@ -23,23 +23,14 @@ for /f "delims=" %%G in ('where.exe grain 2^>nul') do (
 )
 
 >&2 echo Grain is not installed. Ask the person whether to install it. If they say yes, run: irm https://grain.tools/install.ps1 ^| iex
+>&2 echo Then verify the grain.cmd in GRAIN_HOME\bin (or USERPROFILE\.grain\bin) exists and its --help succeeds with a line starting Usage: grain followed by whitespace or end of line before reporting success.
 exit /b 1
 
 :check
 set "candidate=%~1"
-set "identity="
 set "GRAIN_CANDIDATE=%candidate%"
-for /f "delims=" %%L in ('powershell.exe -NoProfile -Command "if (Test-Path -LiteralPath $env:GRAIN_CANDIDATE) { $command = [char]34 + $env:GRAIN_CANDIDATE + [char]34 + ' --help 2>nul'; $output = & $env:ComSpec /d /c $command; $code = $LASTEXITCODE; $output | Select-Object -First 1; exit $code } else { exit 1 }"') do if not defined identity set "identity=%%L"
-set "probeExit=%ERRORLEVEL%"
-if not "%probeExit%"=="0" goto invalid
-if not defined identity goto invalid
-set "identityValid="
-for /f "tokens=1,2" %%A in ("%identity%") do if "%%A %%B"=="Usage: grain" set "identityValid=1"
-if not defined identityValid exit /b 1
-exit /b 0
-
-:invalid
-exit /b 1
+powershell.exe -NoProfile -Command "if (-not (Test-Path -LiteralPath $env:GRAIN_CANDIDATE -PathType Leaf)) { exit 1 }; $command = [char]34 + $env:GRAIN_CANDIDATE + [char]34 + ' --help 2>nul'; $output = & $env:ComSpec /d /c $command; if ($LASTEXITCODE -ne 0 -or -not ($output -cmatch '^Usage: grain(\s|$)')) { exit 1 }" >nul
+exit /b %ERRORLEVEL%
 
 :launch
 call "%candidate%" --stdio

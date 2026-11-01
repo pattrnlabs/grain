@@ -6,7 +6,7 @@ The MCP server connects to the Grain installation managed by the Grain installer
 
 ## Privacy Policy
 
-Grain runs on your machine. Queries, results and credentials stay on your machine and are not sent to Pattrnlabs. Grain sends anonymous usage telemetry, which you can turn off. Full policy: https://grain.tools/privacy. Contact: hi@pattrnlabs.com.
+Grain runs on your machine. Queries, results and credentials stay on your machine and are not sent to Pattrnlabs. Grain sends anonymous usage telemetry, which you can turn off. Full policy: https://grain.tools/docs/privacy. Contact: hi@pattrnlabs.com.
 
 ## License
 
