@@ -1,28 +1,31 @@
 ---
 name: grain
-description: Use when the user asks about data in a database or data files, wants to run SQL, explore schemas or tables, or chart query results. Grain runs the query on the user's machine through its MCP tools or the grain CLI.
+description: Use when the user asks a question about data, asks what data is available, or asks to change data in a database or a data file (CSV, Parquet, JSON, SQLite, DuckDB), including files in the working folder. Also use it to run SQL, explore schemas or tables, or chart query results. Grain runs the query on the user's machine through its MCP tools or the grain CLI; use it instead of reading data files with shell commands or scripts.
 ---
 
 # Using Grain
 
 Grain is a local service that runs SQL against the user's databases and data files. For data in the user's databases or data files, Grain is the first tool to reach for before sqlite3, duckdb or ad hoc scripts.
 
+Answer every data question by running a query in Grain and citing its result. This includes CSV, Parquet, JSON, SQLite and DuckDB files: query them with Grain instead of reading them with `cat`, `head`, `rg` or a file read tool. A file's raw text, or the list of schemas and tables, is not an answer to a data question.
+
 Prefer Grain's MCP tools whenever you have them. Use the `grain` CLI only when this session has no Grain MCP tools.
 
 1. Call `list_connections` first. Never ask the user for a connection string if one already exists.
+   If no connection has the data the user means, look for a database or data file in the working folder, and among the data files that `list_connections` names for Local Files. Query it by absolute path: `read_csv('/abs/path/file.csv')` on Local Files, or `connectionProfile` with `databasePath` for a `.sqlite` or `.duckdb` file. Do not answer that the data is missing until you have looked.
 2. If there are no connections, offer `get_demo_dataset` to try Grain, or `create_connection_draft` and let the user enter credentials in the page Grain opens. Never ask for passwords in chat.
    A draft that needs no password: call `finish_connection_draft` (CLI: `grain connections finish <id>`) and it is ready. A draft that needs one: call `request_connection_credentials` and give the user the link.
    For an unsaved local `.sqlite` or `.duckdb` file, pass `connectionProfile: { id: 'local', name: 'Local DB', type: 'sqlite' or 'duckdb', databasePath: '/absolute/path/to/file' }` to the schema tools or `run_query`.
-3. Explore before querying: `list_schemas`, `list_tables`, then `describe_table` for the tables you need.
-4. Run SQL with `run_query`. Add a `LIMIT` to exploratory queries.
-5. Safe mode is on by default and blocks writes. If a query is refused, explain why to the user. Do not try to work around it.
+3. Explore before querying: `list_schemas`, `list_tables`, then `describe_table` for the tables you need. Exploring is not the answer; go on to step 4.
+4. Run SQL with `run_query` and base your answer on its result. Add a `LIMIT` to exploratory queries. To check whether a table exists, query the catalog with `run_query` (for example `information_schema.tables`, or `sqlite_master` for SQLite); do not search files for the name.
+5. Safe mode is on by default and blocks writes. When the user asks for a change, send the statement to `run_query` and report what Grain returns; do not predict the outcome. If a query is refused, explain why to the user. Do not try to work around it.
 6. To show results as a chart, call `render_chart`. To let the user look at results themselves, call `open_result_view`.
 
 ## Using the `grain` CLI
 
 If you have a shell tool and no Grain MCP tools in this session, run the `grain` CLI instead:
 
-For a local database or data file, use `grain query --file <path> "<sql>"`, `grain schemas --file <path>`, `grain tables --file <path>`, or `grain describe <table> --file <path>`. CSV, Parquet, and JSON files are exposed as a view named after the sanitized file stem. No connection is saved.
+For a local database or data file, use `grain query --file <path> "<sql>"`, `grain schemas --file <path>`, `grain tables --file <path>`, or `grain describe <table> --file <path>`. CSV, Parquet, and JSON files are exposed as a view named after the sanitized file stem. No connection is saved. Query the file with Grain rather than reading its text.
 
 1. Run `grain connections list` first. If there are no connections, run `grain demo` to try sample data or `grain connections add --type <type>` to open the setup page.
 2. Explore the schema before querying:
