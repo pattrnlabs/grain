@@ -1,6 +1,6 @@
 ---
 name: grain
-description: Use when the user asks a question about data, asks what data is available, or asks to change data in a database or a data file (CSV, Parquet, JSON, SQLite, DuckDB), including files in the working folder. Also use it to run SQL, explore schemas or tables, or chart query results. Grain runs the query on the user's machine through its MCP tools or the grain CLI; use it instead of reading data files with shell commands or scripts.
+description: Use when the user asks a question about data, asks what data is available or whether a table exists, asks about a saved, draft or unfinished database connection, or asks to change data in a database or a data file (CSV, Parquet, JSON, SQLite, DuckDB), including files in the working folder. Also use it to run SQL, explore schemas or tables, or chart query results. Grain runs the query on the user's machine through its MCP tools or the grain CLI; use it instead of reading data files with shell commands or scripts.
 ---
 
 # Using Grain
@@ -17,9 +17,9 @@ Prefer Grain's MCP tools whenever you have them. Use the `grain` CLI only when t
    A draft that needs no password: call `finish_connection_draft` (CLI: `grain connections finish <id>`) and it is ready. A draft that needs one: call `request_connection_credentials` and give the user the link.
    For an unsaved local `.sqlite` or `.duckdb` file, pass `connectionProfile: { id: 'local', name: 'Local DB', type: 'sqlite' or 'duckdb', databasePath: '/absolute/path/to/file' }` to the schema tools or `run_query`.
 3. Explore before querying: `list_schemas`, `list_tables`, then `describe_table` for the tables you need. Exploring is not the answer; go on to step 4.
-4. Run SQL with `run_query` and base your answer on its result. Add a `LIMIT` to exploratory queries. To check whether a table exists, query the catalog with `run_query` (for example `information_schema.tables`, or `sqlite_master` for SQLite); do not search files for the name.
+4. Run SQL with `run_query` and base your answer on its result. Add a `LIMIT` to exploratory queries. When a filter on a text value such as a status returns no rows, do not answer zero yet: run `SELECT <column>, count(*) FROM <table> GROUP BY <column>` to see the values the data actually uses (for example `complete` rather than `completed`), then query again with the right value. To check whether a table exists, query the catalog with `run_query` (for example `information_schema.tables`, or `sqlite_master` for SQLite); do not search files for the name.
 5. Safe mode is on by default and blocks writes. When the user asks for a change, send the statement to `run_query` and report what Grain returns; do not predict the outcome. If a query is refused, explain why to the user. Do not try to work around it.
-6. To show results as a chart, call `render_chart`. To let the user look at results themselves, call `open_result_view`.
+6. To show results as a chart, call `render_chart`. The user can already look at every `run_query` result in Grain.
 
 ## Using the `grain` CLI
 
@@ -30,8 +30,8 @@ For a local database or data file, use `grain query --file <path> "<sql>"`, `gra
 1. Run `grain connections list` first. If there are no connections, run `grain demo` to try sample data or `grain connections add --type <type>` to open the setup page.
 2. Explore the schema before querying:
    - `grain schemas --connection <id> [--catalog <name>]`
-   - `grain tables --connection <id> --schema <name> [--catalog <name>]`
-   - `grain describe <table> --connection <id> --schema <name> [--catalog <name>]`
+   - `grain tables --connection <id> [--schema <name>] [--catalog <name>]`
+   - `grain describe <table> --connection <id> [--schema <name>] [--catalog <name>]`
 3. Run SQL with `grain query "<sql>" --connection <id> [--limit <n>]`. Pass `--json` when you need structured output.
 
 If a `grain` command fails with "could not connect to 127.0.0.1", or reports that Grain is not running when it is already running (for example inside a sandboxed shell such as Codex):
