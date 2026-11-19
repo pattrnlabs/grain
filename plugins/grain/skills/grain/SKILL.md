@@ -12,14 +12,18 @@ Answer every data question by running a query in Grain and citing its result. Th
 Prefer Grain's MCP tools whenever you have them. Use the `grain` CLI only when this session has no Grain MCP tools.
 
 1. Call `list_connections` first. Never ask the user for a connection string if one already exists.
-   If no connection has the data the user means, look for a database or data file in the working folder, and among the data files that `list_connections` names for Local Files. Query it by absolute path: `read_csv('/abs/path/file.csv')` on Local Files, or `connectionProfile` with `databasePath` for a `.sqlite` or `.duckdb` file. Do not answer that the data is missing until you have looked.
+   If no connection has the data the user means, look for a database or data file in the working folder, and among the data files that `list_connections` names for Grain Engine. Query it by absolute path: `read_csv('/abs/path/file.csv')` on Grain Engine, or `connectionProfile` with `databasePath` for a `.sqlite` or `.duckdb` file. Do not answer that the data is missing until you have looked.
 2. If there are no connections, offer `get_demo_dataset` to try Grain, or `create_connection_draft` and let the user enter credentials in the page Grain opens. Never ask for passwords in chat.
    A draft that needs no password: call `finish_connection_draft` (CLI: `grain connections finish <id>`) and it is ready. A draft that needs one: call `request_connection_credentials` and give the user the link.
    For an unsaved local `.sqlite` or `.duckdb` file, pass `connectionProfile: { id: 'local', name: 'Local DB', type: 'sqlite' or 'duckdb', databasePath: '/absolute/path/to/file' }` to the schema tools or `run_query`.
 3. Explore before querying: `list_schemas`, `list_tables`, then `describe_table` for the tables you need. Exploring is not the answer; go on to step 4.
-4. Run SQL with `run_query` and base your answer on its result. The result is `structuredContent.result`: `schemaVersion`, `status` (`finished`, `failed`, `cancelled` or `running`), `query`, `connection`, `timing`, `data` (`columns`, each with `name` and `type`, and `rows`), `rowCount` (the rows the query produced) and `truncated` (true when `data.rows` holds only part of the rows, so do not total or rank from it). `structuredContent.card` carries `resultId`, `title`, `actor` and optional `threadRef` and `suggestedChart`. `get_tab_info` returns the same `result` cut to its first 10 rows unless you ask for `mode: "page"`, where `truncated` is also true while `hasMore` is true. A failed query is a result with `status` `failed` and an `error` object. Add a `LIMIT` to exploratory queries. When a filter on a text value such as a status returns no rows, do not answer zero yet: run `SELECT <column>, count(*) FROM <table> GROUP BY <column>` to see the values the data actually uses (for example `complete` rather than `completed`), then query again with the right value. To check whether a table exists, query the catalog with `run_query` (for example `information_schema.tables`, or `sqlite_master` for SQLite); do not search files for the name.
+4. Run SQL with `run_query` and base your answer on its result. The result is `structuredContent.result`: `schemaVersion`, `status` (`finished`, `failed`, `cancelled` or `running`), `query`, `connection`, `timing`, `data` (`columns`, each with `name` and `type`, and `rows`), `rowCount` (the rows the query produced) and `truncated` (true when `data.rows` holds only part of the rows, so do not total or rank from it). `structuredContent.card` carries `resultId`, `title`, `actor` and optional `threadRef` and `suggestedChart`. Call `get_run` to fetch metadata and the 10-row preview for a `runId`, and `get_result` to page through more rows (`offset` and `limit`, where `truncated` is true while `hasMore` is true). A failed query is a result with `status` `failed` and an `error` object. Add a `LIMIT` to exploratory queries. When a filter on a text value such as a status returns no rows, do not answer zero yet: run `SELECT <column>, count(*) FROM <table> GROUP BY <column>` to see the values the data actually uses (for example `complete` rather than `completed`), then query again with the right value. To check whether a table exists, query the catalog with `run_query` (for example `information_schema.tables`, or `sqlite_master` for SQLite); do not search files for the name.
+
+   For slow or long-running queries, pass `waitMs` on `run_query` (or `--wait <ms>` on `grain query`) so the call returns with `runId` and `status` `running` when that time elapses while the query keeps running. Follow up with `get_run` (CLI: `grain run <runId>`), fetch rows with `get_result` (`grain result <runId>`), browse recent runs with `list_runs` (`grain runs`), or stop it with `cancel_run` (`grain cancel <runId>`).
+
 5. Safe mode is on by default and blocks writes. When the user asks for a change, send the statement to `run_query` and report what Grain returns; do not predict the outcome. If a query is refused, explain why to the user. Do not try to work around it.
 6. To show results as a chart, call `render_chart`. The user can already look at every `run_query` result in Grain.
+7. To group related queries as one piece of work (experimental), start `run_query` with `thread: { name, kind: 'analysis' }` and reuse the returned `threadId`. Record what you found with `findings`, each as `{ text, runIds }`: attach the `runId` Grain returned for every query that backs the finding. A run must be in the same thread and started by you, or the call is refused. A finding with no query is allowed, and Grain shows it as "No query attached".
 
 ## Using the `grain` CLI
 
@@ -32,9 +36,15 @@ For a local database or data file, use `grain query --file <path> "<sql>"`, `gra
    - `grain schemas --connection <id> [--catalog <name>]`
    - `grain tables --connection <id> [--schema <name>] [--catalog <name>]`
    - `grain describe <table> --connection <id> [--schema <name>] [--catalog <name>]`
-3. Run SQL with `grain query "<sql>" --connection <id> [--limit <n>]`. Pass `--json` when you need structured output.
+3. Run SQL and inspect runs:
+   - `grain query "<sql>" --connection <id> [--limit <n>] [--wait <ms>]`
+   - `grain run <runId>`
+   - `grain result <runId> [--limit <n>] [--offset <n>]`
+   - `grain runs [--query <path>] [--connection <id>] [--status <status>]`
+   - `grain cancel <runId>`
+     Pass `--json` when you need structured output.
 
-With `--json`, a failed command prints `{ "error": { "errorId", "message", ... } }` on stdout, the same error object MCP tools and the workspace API return, and exits non-zero. Branch on `error.errorId`, not on the wording of `error.message`. A failed query has `errorId` `query_failed` and also carries `errorKind`, `tabId`, `sessionId` and `version`.
+With `--json`, a failed command prints `{ "error": { "errorId", "message", ... } }` on stdout, the same error object MCP tools and the workspace API return, and exits non-zero. Branch on `error.errorId`, not on the wording of `error.message`. A failed query has `errorId` `query_failed` and also carries `errorKind`, `runId` and `version`.
 
 If a `grain` command fails with "could not connect to 127.0.0.1", or reports that Grain is not running when it is already running (for example inside a sandboxed shell such as Codex):
 
